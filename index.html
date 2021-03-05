@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>GitHub Actions Vortrag</title>
+        <link rel="stylesheet" href="./reveal.js/reveal.css" />
+        <link rel="stylesheet" href="./reveal.js/theme/black.css" />
+        <link
+            rel="stylesheet"
+            href="./reveal.js/plugin/highlight/monokai.css"
+        />
+        <link rel="stylesheet" href="./main.css" />
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h2>GitHub Actions Vortrag</h2>
+                    <h3>von Yannick Fricke</h3>
+                    <p>&nbsp;</p>
+                    <p><a href="https://yannickfricke.dev">Homepage</a></p>
+                    <p><a href="https://github.com/YannickFricke">GitHub</a></p>
+                    <p><a href="https://twitch.tv/iSEVEN">Twitch</a></p>
+                </section>
+                <section>
+                    <h2>Über mich</h2>
+                    <ul>
+                        <li class="fragment">27 Jahre jung</li>
+                        <li class="fragment">Open Source-Enthusiast</li>
+                        <li class="fragment">
+                            derzeit React, TypeScript, Electron, Webpack
+                        </li>
+                        <li class="fragment">
+                            Jeden Freitag um 18:30 live auf Twitch
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <section>
+                        <h1>Thema heute:</h1>
+                    </section>
+                    <section>
+                        <h1>GitHub Actions</h1>
+                        <h2>Wieso, weshalb, warum CI/CD-Pipelines?</h2>
+                    </section>
+                </section>
+                <section>
+                    <h2>Continuous Integration</h2>
+                    <p class="fragment">
+                        Testen von neuem Code vor der Zusammenführung
+                    </p>
+                    <p class="fragment">Einhaltung von Code Standards</p>
+                    <p class="fragment">
+                        Aufdecken von Fehlern (Konfigurationsdateien, Quelltext)
+                    </p>
+                </section>
+                <section>
+                    <section>
+                        <h2>Continuous Deployment</h2>
+                    </section>
+                    <section>
+                        <h2>Deployment von neuen Software-Versionen</h2>
+                        <p class="fragment">Auf die eigene Infrastruktur</p>
+                        <p class="fragment">
+                            Auf "Registries" die die Pakete hosten
+                        </p>
+                    </section>
+                </section>
+                <section>
+                    <h2>Wer benutzt GitHub Actions?</h2>
+                    <ul>
+                        <li class="fragment">Private Anwender</li>
+                        <li class="fragment">Unternehmen</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Runner Typen</h2>
+                    <ul>
+                        <li class="fragment">
+                            Öffentliche (Infrastruktur von GitHub (Microsoft))
+                        </li>
+                        <li class="fragment">Private (eigene Infrastruktur)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Preise</h2>
+                    <table>
+                        <thead>
+                            <td></td>
+                            <td>GitHub Actions</td>
+                            <td>Eigene Runner</td>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Öffentliche Repositories</td>
+                                <td>Kostenlos</td>
+                                <td>Server-Kosten</td>
+                            </tr>
+                            <tr>
+                                <td>Private Repositories</td>
+                                <td>Freiminuten (je nach Plan)</td>
+                                <td>Server-Kosten</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <section>
+                    <h2>Anwendungsfälle</h2>
+                    <p class="fragment">Testen von Code bei jedem Push</p>
+                    <p class="fragment">
+                        Deploy von Code auf die eigene Infrastruktur
+                    </p>
+                    <p class="fragment">Release von neuen Build Artefakten</p>
+                </section>
+                <section>
+                    <section>
+                        <h2>Anforderungen</h2>
+                        <p class="fragment">Grundlegende JavaScript-Kenntnisse</p>
+                        <p class="fragment"><a href="https://code.visualstudio.com/">Visual Studio Code</a></p>
+                        <p class="fragment"><a href="https://github.com">GitHub Konto</a></p>
+                        <p class="fragment"><a href="https://nodejs.org/en/download/">Node.JS</a></p>
+                        <p class="fragment"><a href="http://git-scm.com/">GIT</a></p>
+                    </section>
+                    <section>
+                        <h2>Installation der Visual Studio Code Erweiterung</h2>
+                        <p><a href="https://marketplace.visualstudio.com/items?itemName=cschleiden.vscode-github-actions">Link zum Visual Studio Marketplace</a></p>
+
+                        <aside class="notes">
+                            1-2 Minuten Zeit lassen zur Installation.
+                        </aside>
+                    </section>
+                </section>
+                <section>
+                    <h2>Speicherort</h2>
+                    
+                    <p>
+                        <table>
+                            <thead>
+                                <td>Name</td>
+                                <td>Beschreibung</td>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>projectDirectory</td>
+                                    <td>Das Hauptverzeichnis vom Projekt</td>
+                                </tr>
+                                <tr>
+                                    <td>workflowName</td>
+                                    <td>Kurzer und prägnanter Name vom Workflow</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                    <p>(projectDirectory)/.github/workflows/(workflowName).yml</p>
+                </section>
+                <section>
+                        <section>
+                            <h2>
+                                Einführung in GitHub Actions Konfigurationen: YAML
+                            </h2>
+                        </section>
+                        <section>
+                            <h2>Die Konfigurationsdatei</h2>
+                            <pre><code data-line-numbers="1|3|5" data-trim>
+# Workflow Konfiguration
+
+# Events
+
+# Jobs
+                            </code></pre>
+                        </section>
+                        <section>
+                            <h2>Workflow Konfiguration</h2>
+                        <pre class="fragment"><code data-line-numbers data-trim>
+# Der Name des Workflows
+name: Unsere CI pipeline
+                        </code></pre>
+                        </section>
+                    <section>
+                        <h2>Events</h2>
+                        <pre class="fragment"><code data-line-numbers data-trim>
+# Workflow Konfiguration...
+
+on: push
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Jobs</h2>
+                        <pre class="fragment"><code data-line-numbers data-trim>
+# Workflow Konfiguration...
+
+# Event Konfiguration...
+
+jobs:
+    tests:
+        name: Test the source code
+                        </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <h2>Verwendung von externen Actions</h2>
+                    <p>Grundlegend für die Nutzung von GitHub Actions</p>
+                </section>
+                <section>
+                    <section>
+                        <h2>Umgebungsvariablen</h2>
+                        <p class="fragment">Gültigkeitsbereiche</p>
+                        <ul>
+                            <li class="fragment">Workflow</li>
+                            <li class="fragment">Job</li>
+                            <li class="fragment">Schritt</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Definition über die Workflow-Datei</h3>
+                    </section>
+                    <section>
+                        <p>Auf Workflow Ebene:</p>
+                        <pre><code data-line-numbers data-trim>
+# Workflow Konfiguration...
+
+# Events Konfiguration...
+
+env:
+    MY_ENV_KEY: "my_workflow_value"
+                        </code></pre>
+                    </section>
+                    <section>
+                        <p>Auf Job Ebene:</p>
+                        <pre><code data-line-numbers data-trim>
+# Workflow Konfiguration...
+
+# Events Konfiguration...
+
+jobs:
+    example_job:
+        # Weitere Job Konfiguration...
+        env:
+            MY_ENV_KEY: "my_job_value"
+                        </code></pre>
+                    </section>
+                    <section>
+                        <p>Auf Schritt Ebene:</p>
+                        <pre><code data-line-numbers data-trim>
+# Workflow Konfiguration...
+
+# Events Konfiguration...
+
+jobs:
+    example_job:
+        # Weitere Job Konfiguration...
+        steps:
+            - name: Aufsetzen der Repository
+              env:
+                MY_ENV_KEY: my_step_value
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Secret Keys</h3>
+                        <ul>
+                            <li class="fragment">Verschlüsselte Daten (Text + Dateien)</li>
+                            <li class="fragment">Werden aus dem Log entfernt</li>
+                            <li class="fragment">Einige Beschränkungen</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Secret Keys &mdash; Beschränkungen</h3>
+                        <ul>
+                            <li class="fragment">Namen dürfen nur alphanumerischen Zeichen und Unterstriche beinhalten (Pattern: a-zA-Z0-9_)</li>
+                            <li class="fragment">Dürfen nicht mit "GITHUB_" beginnen</li>
+                            <li class="fragment">Dürfen nicht mit einer Nummer anfangen</li>
+                            <li class="fragment">Secrets sind nicht case-sensitiv</li>
+                            <li class="fragment">Müssen einzigartig auf dem Definitionslevel (Organisation / Repository) sein</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Bedingungen</h2>
+
+                        <p class="fragment">Definierbar auf Job-Ebene</p>
+                        <p class="fragment">Zugriff auf den <a href="https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#contexts">Kontext</a></p>
+                    </section>
+                    <section>
+                        <pre><code data-trim data-line-numbers>if: "!contains(github.event.head_commit.message, 'skip ci')"</code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Build-Matrix</h2>
+
+                        <p class="fragment">Definierbar auf Job-Ebene</p>
+                        <p class="fragment">Testen mit verschiedenen Konfigurationen</p>
+                    </section>
+                    <section>
+                        <pre><code data-trim data-line-numbers>
+jobs:
+    tests:
+        # Weitere Job-Konfiguration
+        strategy:
+            matrix:
+                node-version: [13.x, 14.x, 15.x]
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <h2>Job Abhängigkeiten</h2>
+
+                    <pre class="fragment"><code>
+jobs:
+    tests:
+        # Konfiguration für den "tests" Job
+    deploy:
+        # Weitere Job-Konfiguration
+        needs: [tests]
+                    </code></pre>
+                </section>
+                <section>
+                    <h2>Build Artefakte</h2>
+                </section>
+                <section>
+                    <section>
+                        <h2>Umgebungen (Deployments)</h2>
+
+                        <p class="fragment">Commit der deployt ist</p>
+                        <p class="fragment">URL der Umgebung (falls verfügbar)</p>
+                        <p class="fragment">Approvals (Zustimmung bevor ein Deploy ausgeführt wird)</p>
+                    </section>
+                    <section>
+                        <h2>Approvals</h2>
+                    </section>
+                </section>
+                <section>
+                    <h2>Services</h2>
+                    <ul>
+                        <li class="fragment">Definierbar auf Job-Ebene</li>
+                        <li class="fragment">Basierend auf Docker Images</li>
+                        <li class="fragment">Werden separat zum Job ausgeführt</li>
+                    </ul>
+                </section>
+                <section>
+                    <h1>Ende</h1>
+                    <h2>Auf zu neuen CI-Pipelines oder etwa nicht?!</h2>
+                </section>
+                <section>
+                    <h1>Geheimtipp:</h1>
+                    <h2><a href="https://github.com/nektos/act">nektos/act</a></h2>
+                    <p>Lokales Testen der Pipelines</p>
+                </section>
+            </div>
+        </div>
+        <script src="./reveal.js/plugin/markdown/markdown.js"></script>
+        <script src="./reveal.js/plugin/highlight/highlight.js"></script>
+        <script src="./reveal.js/plugin/notes/notes.js"></script>
+        <script src="./reveal.js/reveal.js"></script>
+        <script src="./main.js"></script>
+    </body>
+</html>
