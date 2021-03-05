@@ -19,8 +19,7 @@
                 <section>
                     <h2>GitHub Actions Vortrag</h2>
                     <h3>von Yannick Fricke</h3>
-                    <p>Open Source-Enthusiast</p>
-
+                    <p>&nbsp;</p>
                     <p><a href="https://yannickfricke.dev">Homepage</a></p>
                     <p><a href="https://github.com/YannickFricke">GitHub</a></p>
                     <p><a href="https://twitch.tv/iSEVEN">Twitch</a></p>
@@ -97,12 +96,12 @@
                             <tr>
                                 <td>Öffentliche Repositories</td>
                                 <td>Kostenlos</td>
-                                <td>Kostenlos</td>
+                                <td>Server-Kosten</td>
                             </tr>
                             <tr>
                                 <td>Private Repositories</td>
-                                <td></td>
-                                <td>Kostenlos</td>
+                                <td>Freiminuten (je nach Plan)</td>
+                                <td>Server-Kosten</td>
                             </tr>
                         </tbody>
                     </table>
@@ -283,32 +282,78 @@ jobs:
                 <section>
                     <section>
                         <h2>Bedingungen</h2>
+
+                        <p class="fragment">Definierbar auf Job-Ebene</p>
+                        <p class="fragment">Zugriff auf den <a href="https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#contexts">Kontext</a></p>
+                    </section>
+                    <section>
+                        <pre><code data-trim data-line-numbers>if: "!contains(github.event.head_commit.message, 'skip ci')"</code></pre>
+                    </section>
+                    <section>
+                        <pre><code data-trim data-line-numbers>if: "!contains(github.event.head_commit.message, 'skip ci')"</code></pre>
                     </section>
                 </section>
                 <section>
-                    <h2>Build-Matrix</h2>
+                    <section>
+                        <h2>Build-Matrix</h2>
+
+                        <p class="fragment">Definierbar auf Job-Ebene</p>
+                        <p class="fragment">Testen mit verschiedenen Konfigurationen</p>
+                    </section>
+                    <section>
+                        <pre><code data-trim data-line-numbers>
+jobs:
+    tests:
+        # Weitere Job-Konfiguration
+        strategy:
+            matrix:
+                node-version: [13.x, 14.x, 15.x]
+                        </code></pre>
+                    </section>
                 </section>
                 <section>
                     <h2>Job Abhängigkeiten</h2>
-                </section>
-                <section>
-                    <h2>Labels</h2>
-                </section>
-                <section>
-                    <h2>Approvals</h2>
+
+                    <pre class="fragment"><code>
+jobs:
+    tests:
+        # Konfiguration für den "tests" Job
+    deploy:
+        # Weitere Job-Konfiguration
+        needs: [tests]
+                    </code></pre>
                 </section>
                 <section>
                     <h2>Build Artefakte</h2>
                 </section>
                 <section>
-                    <h2>Umgebungen</h2>
+                    <section>
+                        <h2>Umgebungen (Deployments)</h2>
+
+                        <p class="fragment">Commit der deployt ist</p>
+                        <p class="fragment">URL der Umgebung (falls verfügbar)</p>
+                        <p class="fragment">Approvals (Zustimmung bevor ein Deploy ausgeführt wird)</p>
+                    </section>
+                    <section>
+                        <h2>Approvals</h2>
+                    </section>
                 </section>
                 <section>
                     <h2>Services</h2>
+                    <ul>
+                        <li class="fragment">Definierbar auf Job-Ebene</li>
+                        <li class="fragment">Basierend auf Docker Images</li>
+                        <li class="fragment">Werden separat zum Job ausgeführt</li>
+                    </ul>
                 </section>
                 <section>
                     <h1>Ende</h1>
                     <h2>Auf zu neuen CI-Pipelines oder etwa nicht?!</h2>
+                </section>
+                <section>
+                    <h1>Geheimtipp:</h1>
+                    <h2><a href="https://github.com/nektos/act">nektos/act</a></h2>
+                    <p>Lokales Testen der Pipelines</p>
                 </section>
             </div>
         </div>

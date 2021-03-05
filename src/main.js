@@ -1,7 +1,8 @@
 let deck = new Reveal({
-    slideNumber: true,
     plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+    // slideNumber: true,
     hash: true,
+    // showNotes: true,
     autoSlide: 0,
 });
 deck.initialize();
