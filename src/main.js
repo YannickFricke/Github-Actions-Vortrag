@@ -1,6 +1,6 @@
 let deck = new Reveal({
-    plugins: [RevealMarkdown, RevealHighlight],
     slideNumber: true,
+    plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
     hash: true,
     autoSlide: 0,
 });
